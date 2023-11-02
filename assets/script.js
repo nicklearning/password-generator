@@ -13,14 +13,13 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 function generatePassword() {
   var password = "";
   var concatList = "";
 
-  // prompt user for password length
+  // prompt user for password length. Password must be at least 8 characters and no more than 128 characters.
   do {
     var length = prompt("How many characters would you like your password to be?", 8);
     if (length === null) {
@@ -32,12 +31,10 @@ function generatePassword() {
     else if (length > 128) {
       alert("Password must be less than 128 characters.");
     }
-  } while (length < 8 || length > 128);
+  } while (length < 8 || length > 128); // code flow continues if satisfied
 
 
-  console.log(length);
-
-  // prompt user for their desired characters in their password 
+  // prompt user for their desired characters in their password, returns boolean 
   var lowers = confirm("Do you want lowercase letters?");
   console.log(lowers);
 
@@ -50,101 +47,39 @@ function generatePassword() {
   var specials = confirm("Do you want special letters?");
   console.log(specials);
 
-  // set the value for all possible combined conditions the user entered.
-  var combinedCondition1 = lowers && uppers && numbers && specials;
-  var combinedCondition2 = lowers && uppers && numbers && !specials;
-  var combinedCondition3 = lowers && uppers && !numbers && specials;
-  var combinedCondition4 = lowers && uppers && !numbers && !specials;
-  var combinedCondition5 = lowers && !uppers && numbers && specials;
-  var combinedCondition6 = lowers && !uppers && numbers && !specials;
-  var combinedCondition7 = lowers && !uppers && !numbers && specials;
-  var combinedCondition8 = lowers && !uppers && !numbers && !specials;
-  var combinedCondition9 = !lowers && uppers && numbers && specials;
-  var combinedCondition10 = !lowers && uppers && numbers && !specials;
-  var combinedCondition11 = !lowers && uppers && !numbers && specials;
-  var combinedCondition12 = !lowers && uppers && !numbers && !specials;
-  var combinedCondition13 = !lowers && !uppers && numbers && specials;
-  var combinedCondition14 = !lowers && !uppers && numbers && !specials;
-  var combinedCondition15 = !lowers && !uppers && !numbers && specials;
-  var combinedCondition16 = !lowers && !uppers && !numbers && !specials;
-
-  // conditionally create the list of characters based on the user's desired characters
-  while (password.length < length) {
-    if (combinedCondition1) {
-      var concatList = lowercaseList + uppercaseList + numList + specialList;
-      var val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition2) {
-      concatList = lowercaseList + uppercaseList + numList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition3) {
-      concatList = lowercaseList + uppercaseList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition4) {
-      concatList = lowercaseList + uppercaseList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition5) {
-      concatList = lowercaseList + numList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition6) {
-      concatList = lowercaseList + numList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition7) {
-      concatList = lowercaseList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition8) {
-      concatList = lowercaseList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition9) {
-      concatList = uppercaseList + numList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition10) {
-      concatList = uppercaseList + numList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition11) {
-      concatList = uppercaseList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition12) {
-      concatList = uppercaseList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition13) {
-      concatList = numList + specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    }  else if (combinedCondition14) {
-      concatList = numList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition15) {
-      concatList = specialList;
-      val = getRandomItem(concatList);
-      password += val;
-    } else if (combinedCondition16) {
-      password = "";
-      return;
-    }
-
+  // make user config object to store the results of the user selections 
+  let userConfig = {
+    lowerCase: lowers,
+    upperCase: uppers,
+    numbers: numbers,
+    specials: specials,
   }
 
-  return password;
+  // create the list dynamically based on the user's desired character types
+  if (userConfig.lowerCase) {
+    concatList += lowercaseList;
+  }
+  if (userConfig.upperCase) {
+    concatList += uppercaseList;
+  }
+  if (userConfig.numbers) {
+    concatList += numList;
+  }
+  if (userConfig.specials) {
+    concatList += specialList;
+  }
 
+  // select a random value from the list and store it in the password.
+  for (var i = 0; i < length; i++) {
+    val = getRandomItem(concatList);
+    password += val;
+  }
+    return password;
 }
 
 function getRandomItem(str) {
   return str[Math.floor(Math.random() * str.length)];
 }
-
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
