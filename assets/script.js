@@ -36,16 +36,9 @@ function generatePassword() {
 
   // prompt user for their desired characters in their password, returns boolean 
   var lowers = confirm("Do you want lowercase letters?");
-  console.log(lowers);
-
   var uppers = confirm("Do you want uppercase letters?");
-  console.log(uppers);
-
   var numbers = confirm("Do you want numbers?");
-  console.log(numbers);
-
   var specials = confirm("Do you want special letters?");
-  console.log(specials);
 
   // make user config object to store the results of the user selections 
   let userConfig = {
