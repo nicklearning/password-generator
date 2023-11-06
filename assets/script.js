@@ -4,7 +4,7 @@ var uppercaseList = lowercaseList.toUpperCase();
 var specialList = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
 var numList = "0123456789";
 
-// Get references to the #generate element
+// Get reference to the #generate element
 var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
